@@ -1,4 +1,8 @@
-const io = require("socket.io")(5000);
+require("dotenv").config();
+
+const PORT = process.env.PORT || 5000;
+
+const io = require("socket.io")(PORT);
 
 io.on("connection", (socket) => {
   const id = socket.handshake.query.id;
@@ -8,13 +12,11 @@ io.on("connection", (socket) => {
     recipients.forEach((recipient) => {
       const newRecipient = recipients.filter((r) => r !== recipient);
       newRecipient.push(id);
-      socket.broadcast
-        .to(recipient)
-        .emit("recieve-message", {
-          recipients: newRecipient,
-          sender: id,
-          text,
-        });
+      socket.broadcast.to(recipient).emit("recieve-message", {
+        recipients: newRecipient,
+        sender: id,
+        text,
+      });
     });
   });
 });
