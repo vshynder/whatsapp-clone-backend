@@ -1,8 +1,6 @@
 require("dotenv").config();
 
-const PORT = process.env.PORT || 5000;
-
-const io = require("socket.io")(PORT);
+const io = require("socket.io");
 
 io.on("connection", (socket) => {
   const id = socket.handshake.query.id;
