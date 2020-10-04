@@ -1,8 +1,12 @@
+const express = require("express");
+const app = express();
+const server = require("http").Server(app);
+
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
 
-const io = require("socket.io")(PORT);
+const io = require("socket.io")(server);
 
 io.on("connection", (socket) => {
   const id = socket.handshake.query.id;
@@ -20,3 +24,5 @@ io.on("connection", (socket) => {
     });
   });
 });
+
+server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
